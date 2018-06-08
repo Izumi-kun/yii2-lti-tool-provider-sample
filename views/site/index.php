@@ -26,7 +26,7 @@ $this->title = 'LTI Tool Provider';
     <div class="alert alert-info">
         <span class="glyphicon glyphicon-info-sign"></span>
         Message URL:
-        <strong><?= Html::encode(\yii\helpers\Url::to(['connect/index'], true)) ?></strong>
+        <strong><?= Html::encode(\yii\helpers\Url::to(['lti/connect/index'], true)) ?></strong>
     </div>
 
     <h2>3. Connect</h2>

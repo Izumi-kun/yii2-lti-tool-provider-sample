@@ -50,6 +50,8 @@ $config = [
             'httpClient' => [
                 'transport' => '\yii\httpclient\CurlTransport'
             ],
+            'on launch' => ['\app\controllers\SiteController', 'ltiLaunch'],
+            'on error' => ['\app\controllers\SiteController', 'ltiError'],
         ],
     ],
 ];

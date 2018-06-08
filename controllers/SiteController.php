@@ -6,7 +6,9 @@ use IMSGlobal\LTI\ToolProvider\Outcome;
 use IMSGlobal\LTI\ToolProvider\ResourceLink;
 use IMSGlobal\LTI\ToolProvider\User;
 use izumi\yii2lti\Module;
+use izumi\yii2lti\ToolProviderEvent;
 use Yii;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 
 class SiteController extends Controller
@@ -35,5 +37,43 @@ class SiteController extends Controller
         return $this->render('index', [
             'isLtiSession' => $isLtiSession,
         ]);
+    }
+
+    /**
+     * basic-lti-launch-request handler
+     * @param ToolProviderEvent $event
+     */
+    public static function ltiLaunch(ToolProviderEvent $event)
+    {
+        $tool = $event->sender;
+
+        // $userPk can be used for user identity
+        $userPk = $tool->user->getRecordId();
+        $isAdmin = $tool->user->isStaff() || $tool->user->isAdmin();
+
+        Yii::$app->session->set('isAdmin', $isAdmin);
+        Yii::$app->session->set('isLtiSession', true);
+        Yii::$app->session->set('userPk', $userPk);
+        Yii::$app->controller->redirect(['/site/index']);
+
+        $tool->ok = true;
+    }
+
+    /**
+     * LTI error handler
+     * @param ToolProviderEvent $event
+     * @throws BadRequestHttpException
+     */
+    public static function ltiError(ToolProviderEvent $event)
+    {
+        $tool = $event->sender;
+        $msg = $tool->message;
+        if (!empty($tool->reason)) {
+            Yii::error($tool->reason);
+            if ($tool->isDebugMode()) {
+                $msg = $tool->reason;
+            }
+        }
+        throw new BadRequestHttpException($msg);
     }
 }

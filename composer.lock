@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7956b3f5d293dc312027742f479ba8e4",
+    "content-hash": "7c7e7057691b36995f4e6dc00db686bc",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -259,16 +259,16 @@
         },
         {
             "name": "izumi-kun/yii2-lti-tool-provider",
-            "version": "0.2.0",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Izumi-kun/yii2-lti-tool-provider.git",
-                "reference": "38fde15a797aed7376ad093ae091c0f8a5e35f49"
+                "reference": "1297e6affeb4371becf578be508dbcc4b78e9225"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Izumi-kun/yii2-lti-tool-provider/zipball/38fde15a797aed7376ad093ae091c0f8a5e35f49",
-                "reference": "38fde15a797aed7376ad093ae091c0f8a5e35f49",
+                "url": "https://api.github.com/repos/Izumi-kun/yii2-lti-tool-provider/zipball/1297e6affeb4371becf578be508dbcc4b78e9225",
+                "reference": "1297e6affeb4371becf578be508dbcc4b78e9225",
                 "shasum": ""
             },
             "require": {
@@ -294,7 +294,7 @@
                 }
             ],
             "description": "LTI Tool Provider library for Yii2",
-            "time": "2018-06-04T19:42:43+00:00"
+            "time": "2018-06-07T14:13:04+00:00"
         },
         {
             "name": "yiisoft/yii2",
