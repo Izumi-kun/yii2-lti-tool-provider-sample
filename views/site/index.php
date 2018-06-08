@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $isLtiSession bool */
+/* @var $result string */
 
 $this->title = 'LTI Tool Provider';
 ?>
@@ -38,7 +39,7 @@ $this->title = 'LTI Tool Provider';
 
         <?= Html::beginForm('', 'post', ['class' => 'form-inline']) ?>
         <form method="post" class="form-inline">
-            <?= Html::input('number', 'result', '0', ['step' => '0.1', 'min' => '0', 'max' => 1, 'class' => 'form-control']) ?>
+            <?= Html::input('number', 'result', $result, ['step' => '0.1', 'min' => '0', 'max' => 1, 'class' => 'form-control']) ?>
             <?= Html::submitButton('Submit', ['class' => 'btn btn-success']) ?>
         <?= Html::endForm() ?>
 

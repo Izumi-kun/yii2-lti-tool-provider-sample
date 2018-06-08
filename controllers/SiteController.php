@@ -30,12 +30,15 @@ class SiteController extends Controller
             $result = min(1, max(0, Yii::$app->request->post('result')));
             $outcome = new Outcome(strval($result));
             if ($user->getResourceLink()->doOutcomesService(ResourceLink::EXT_WRITE, $outcome, $user)) {
+                Yii::$app->session->set('result', $outcome->getValue());
                 Yii::$app->session->addFlash('success', 'Result sent successfully');
             }
+            return $this->refresh();
         }
 
         return $this->render('index', [
             'isLtiSession' => $isLtiSession,
+            'result' => Yii::$app->session->get('result', '0'),
         ]);
     }
 
