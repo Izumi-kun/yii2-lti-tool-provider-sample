@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $isLtiSession bool */
+/* @var $userPk int|null */
 /* @var $result string */
 
 $this->title = 'LTI Tool Provider';
@@ -34,7 +35,9 @@ $this->title = 'LTI Tool Provider';
 
     <?php if ($isLtiSession): ?>
         <p>Success!</p>
+    <?php endif ?>
 
+    <?php if ($userPk !== null): ?>
         <h2>4. Send result back to consumer</h2>
 
         <?= Html::beginForm('', 'post', ['class' => 'form-inline']) ?>

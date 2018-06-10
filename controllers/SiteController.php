@@ -21,11 +21,12 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $isLtiSession = Yii::$app->session->get('isLtiSession', false);
+        $userPk = Yii::$app->session->get('userPk');
 
-        if ($isLtiSession && Yii::$app->request->isPost) {
+        if ($userPk !== null && Yii::$app->request->isPost) {
             /* @var Module $module */
             $module = Yii::$app->getModule('lti');
-            $user = User::fromRecordId(Yii::$app->session->get('userPk'), $module->toolProvider->dataConnector);
+            $user = User::fromRecordId($userPk, $module->toolProvider->dataConnector);
 
             $result = min(1, max(0, Yii::$app->request->post('result')));
             $outcome = new Outcome(strval($result));
@@ -38,6 +39,7 @@ class SiteController extends Controller
 
         return $this->render('index', [
             'isLtiSession' => $isLtiSession,
+            'userPk' => $userPk,
             'result' => Yii::$app->session->get('result', '0'),
         ]);
     }
