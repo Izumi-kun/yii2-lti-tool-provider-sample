@@ -1,10 +1,11 @@
 <?php
 
+use IMSGlobal\LTI\ToolProvider\User;
+use izumi\yii2lti\ToolProvider;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $isLtiSession bool */
-/* @var $userPk int|null */
+/* @var $user User|null */
 /* @var $result string */
 
 $this->title = 'LTI Tool Provider';
@@ -33,11 +34,15 @@ $this->title = 'LTI Tool Provider';
 
     <h2>3. Connect</h2>
 
-    <?php if ($isLtiSession): ?>
-        <p>Success!</p>
-    <?php endif ?>
+    <?php if ($user !== null): ?>
+        <p>Success! User ID by scopes:</p>
+        <ul>
+            <li>id only: <strong><?= $user->getId(ToolProvider::ID_SCOPE_ID_ONLY) ?></strong></li>
+            <li>global: <strong><?= $user->getId(ToolProvider::ID_SCOPE_GLOBAL) ?></strong></li>
+            <li>context: <strong><?= $user->getId(ToolProvider::ID_SCOPE_CONTEXT) ?></strong></li>
+            <li>resource: <strong><?= $user->getId(ToolProvider::ID_SCOPE_RESOURCE) ?></strong></li>
+        </ul>
 
-    <?php if ($userPk !== null): ?>
         <h2>4. Send result back to consumer</h2>
 
         <?= Html::beginForm('', 'post', ['class' => 'form-inline']) ?>

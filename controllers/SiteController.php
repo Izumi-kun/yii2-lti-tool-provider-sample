@@ -20,14 +20,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $isLtiSession = Yii::$app->session->get('isLtiSession', false);
         $userPk = Yii::$app->session->get('userPk');
+        /* @var Module $module */
+        $module = Yii::$app->getModule('lti');
+        $user = $userPk !== null ? User::fromRecordId($userPk, $module->toolProvider->dataConnector) : null;
+        if (!$user->getResourceLink()) {
+            $user = null;
+        }
 
-        if ($userPk !== null && Yii::$app->request->isPost) {
-            /* @var Module $module */
-            $module = Yii::$app->getModule('lti');
-            $user = User::fromRecordId($userPk, $module->toolProvider->dataConnector);
-
+        if ($user !== null && Yii::$app->request->isPost) {
             $result = min(1, max(0, Yii::$app->request->post('result')));
             $outcome = new Outcome(strval($result));
             if ($user->getResourceLink()->doOutcomesService(ResourceLink::EXT_WRITE, $outcome, $user)) {
@@ -38,8 +39,7 @@ class SiteController extends Controller
         }
 
         return $this->render('index', [
-            'isLtiSession' => $isLtiSession,
-            'userPk' => $userPk,
+            'user' => $user,
             'result' => Yii::$app->session->get('result', '0'),
         ]);
     }
@@ -57,7 +57,6 @@ class SiteController extends Controller
         $isAdmin = $tool->user->isStaff() || $tool->user->isAdmin();
 
         Yii::$app->session->set('isAdmin', $isAdmin);
-        Yii::$app->session->set('isLtiSession', true);
         Yii::$app->session->set('userPk', $userPk);
         Yii::$app->controller->redirect(['/site/index']);
 
