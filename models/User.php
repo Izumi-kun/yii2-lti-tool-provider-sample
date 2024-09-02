@@ -2,15 +2,18 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
-{
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+use yii\base\BaseObject;
+use yii\web\IdentityInterface;
 
-    private static $users = [
+class User extends BaseObject implements IdentityInterface
+{
+    public string $id;
+    public string $username;
+    public string $password;
+    public string $authKey;
+    public string $accessToken;
+
+    private static array $users = [
         '100' => [
             'id' => '100',
             'username' => 'admin',

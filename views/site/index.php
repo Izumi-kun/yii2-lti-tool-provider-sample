@@ -1,56 +1,52 @@
 <?php
 
-use IMSGlobal\LTI\ToolProvider\User;
-use izumi\yii2lti\ToolProvider;
+use ceLTIc\LTI\Enum\IdScope;
+use ceLTIc\LTI\UserResult;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $user User|null */
+/* @var $user UserResult|null */
 /* @var $result string */
 
-$this->title = 'LTI Tool Provider';
+$this->title = Yii::$app->name;
 ?>
 <div class="site-index">
 
     <h1>Quick start</h1>
 
-    <h2>1. Create consumer credentials</h2>
+    <h2>1. Create Platform credentials</h2>
 
     <p>
-        Click <?= Html::a('here', ['lti/consumer/index']) ?> and create consumer. Copy generated secret.
+        Click <?= Html::a('here', ['lti/platform/index']) ?> and create Platform credentials.
     </p>
 
-    <h2>2. Configure Tool Consumer</h2>
+    <h2>2. Prepare Platform</h2>
 
     <p>
-        Go to your tool consumer (or use <?= Html::a('emulator', 'http://lti.tools/saltire/tc', ['target' => '_blank']) ?>) and configure Tool Provider.
+        Go to your Platform (or use <?= Html::a('emulator', 'https://saltire.lti.app/platform', ['target' => '_blank']) ?>) and configure Tool.
     </p>
-
-    <div class="alert alert-info">
-        <span class="glyphicon glyphicon-info-sign"></span>
-        Message URL:
-        <strong><?= Html::encode(\yii\helpers\Url::to(['lti/connect/index'], true)) ?></strong>
-    </div>
 
     <h2>3. Connect</h2>
 
     <?php if ($user !== null): ?>
         <p>Success! User ID by scopes:</p>
         <ul>
-            <li>id only: <strong><?= $user->getId(ToolProvider::ID_SCOPE_ID_ONLY) ?></strong></li>
-            <li>global: <strong><?= $user->getId(ToolProvider::ID_SCOPE_GLOBAL) ?></strong></li>
-            <li>context: <strong><?= $user->getId(ToolProvider::ID_SCOPE_CONTEXT) ?></strong></li>
-            <li>resource: <strong><?= $user->getId(ToolProvider::ID_SCOPE_RESOURCE) ?></strong></li>
+            <li>id only: <strong><?= $user->getId(IdScope::IdOnly) ?></strong></li>
+            <li>platform: <strong><?= $user->getId(IdScope::Platform) ?></strong></li>
+            <li>context: <strong><?= $user->getId(IdScope::Context) ?></strong></li>
+            <li>resource: <strong><?= $user->getId(IdScope::Resource) ?></strong></li>
         </ul>
 
-        <h2>4. Send result back to consumer</h2>
+        <?php if ($user->getResourceLink()->hasResultService()): ?>
+            <h2>4. Send result back to Platform</h2>
 
-        <?= Html::beginForm('', 'post', ['class' => 'form-inline']) ?>
-        <form method="post" class="form-inline">
-            <?= Html::input('number', 'result', $result, ['step' => '0.1', 'min' => '0', 'max' => 1, 'class' => 'form-control']) ?>
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-success']) ?>
-        <?= Html::endForm() ?>
+            <?= Html::beginForm('', 'post', ['class' => 'form-inline']) ?>
+            <form method="post" class="form-inline">
+                <?= Html::input('number', 'result', $result, ['step' => '0.1', 'min' => '0', 'max' => 1, 'class' => 'form-control']) ?>
+                <?= Html::submitButton('Submit', ['class' => 'btn btn-success']) ?>
+            <?= Html::endForm() ?>
 
-        <h2>5. Check Gradebook in Tool Consumer</h2>
+            <h2>5. Check Gradebook in Platform</h2>
+        <?php endif ?>
     <?php endif ?>
 </div>
